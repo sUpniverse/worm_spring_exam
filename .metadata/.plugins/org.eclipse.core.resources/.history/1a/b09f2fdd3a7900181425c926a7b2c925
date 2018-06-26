@@ -20,7 +20,7 @@
 		<property name="password" value="22345335"></property>	
 	</bean>
 	
-	<!-- Factory를 통해 Connection의 생성과 관리를 맡김  -->
+	<!-- Factory를 통해 Connection의 생성과 관리를 맡  -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>		
