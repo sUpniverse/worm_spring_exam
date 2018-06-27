@@ -20,10 +20,17 @@
 		<property name="password" value="22345335"></property>	
 	</bean>
 	
-	<!-- Factory를 통해 Connection의 생성과 관리를 맡김  -->
+	<!-- sqlSessionFactory를 통해 Connection의 생성과 관리를 맡김  -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:/mybatis-config.xml"></property>
 		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>		
+	
+	<!-- sqlSessionTemplate 를 통해 데이터베이스의 연결과 종료를 관리함 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<context:component-scan base-package="org.supniverse.persistence"></context:component-scan>
 </beans>
