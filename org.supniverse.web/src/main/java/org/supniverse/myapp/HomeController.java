@@ -1,4 +1,4 @@
-package com.supniverse.myapp;
+package org.supniverse.myapp;
 
 import java.text.DateFormat;
 import java.util.Date;
