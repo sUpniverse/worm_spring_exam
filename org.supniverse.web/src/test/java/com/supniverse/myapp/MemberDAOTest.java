@@ -2,6 +2,7 @@ package com.supniverse.myapp;
 
 import javax.inject.Inject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,12 +25,24 @@ public class MemberDAOTest {
 	@Test
 	public void testInserMember() throws Exception {
 		MemberVO vo = new MemberVO();
-		vo.setUserid("user00");
-		vo.setUserpw("user00");
-		vo.setUsername("user00");
-		vo.setEmail("user00@aaa.com");
+		vo.setUserid("user10");
+		vo.setUserpw("user10");
+		vo.setUsername("user10");
+		vo.setEmail("user10@aaa.com");
 		
 		dao.insertMember(vo);		
+	}
+	
+	@Test
+	public void testReadMember() throws Exception {
+		MemberVO vo = dao.readMember("user10");
+		System.out.println(vo.toString());
+	}
+	
+	@Test
+	public void testReadWithPW() throws Exception {
+		MemberVO vo = dao.readWithPW("user10", "user10");
+		System.out.println(vo.toString());
 	}
 
 }
