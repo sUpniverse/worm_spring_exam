@@ -1,8 +1,0 @@
-INDEX VERSION 1.4+/Users/sup/Documents/Spring_workspace/worm_spring_exam/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
-42131047.index
-2477418951.index
-2156042424.index
-146902129.index
-3247898189.index
-125961604.index
-3315372284.index
