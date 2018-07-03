@@ -44,8 +44,8 @@ public class BoardDAOTest {
 //		dao.update(board);		
 //	}
 	
-	@Test
-	public void TestDelete() throws Exception {
-		dao.delete(1);
-	}
+//	@Test
+//	public void TestDelete() throws Exception {
+//		dao.delete(1);
+//	}
 }
