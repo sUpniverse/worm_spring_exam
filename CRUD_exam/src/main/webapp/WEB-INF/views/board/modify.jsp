@@ -30,7 +30,7 @@
 
 <%@include file="../include/footer.jsp" %>
 
-<<script>
+<script>
 	$(document).ready(function() {
 		var formObj = $.("form[role='form']");
 		
