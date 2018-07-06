@@ -44,13 +44,13 @@
 
   - mysql
 
-     ```mysql
-   select * from tbl_board where order by XXX limit 시작데이터번호,데이터 갯수
-     ```
+    ```mysql
+     select * from tbl_board where order by XXX limit 시작데이터번호,데이터 갯수
+    ```
 
 - Class 생성으로 여러개의 파라미터 처리하기
 
-  - page번호 , page당 개시물 갯수 size 등의 정보를 갖는다 (파라미터가 늘어났을때 객체로 전달하기위한 목적)
+- - page번호 , page당 개시물 갯수 size 등의 정보를 갖는다 (파라미터가 늘어났을때 객체로 전달하기위한 목적)
   - Sql 구현시 인라인 파라미터가 존재함 그래서 getPageStart(), getPerPageNum() 메소드를 구현해 놓는다. (getter 및 setter도 만듬) 
 
 - Mapper.xml
@@ -71,11 +71,13 @@
 
   - BoardDAOImpl
 
-            ```java
+    ```java
      public List<BoardVO> listCriteria(Criteria cri) thorws Exception {
      	return session.selectList(".listCriteria",cri);
      }
-            ```
+    ```
+
+    
 
 - Service 수정
 
@@ -87,8 +89,10 @@
 
   - BoardServiceImpl
 
-          ```java
+    ```java
     public List<BoardVO> listCriteria(Criteria cri) throws Exception {
     	return dao.listCriteria(cri); 
     }
-          ```
+    ```
+
+    
