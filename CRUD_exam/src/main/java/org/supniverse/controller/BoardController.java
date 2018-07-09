@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.supniverse.domain.BoardVO;
+import org.supniverse.domain.Criteria;
+import org.supniverse.domain.PageMaker;
 import org.supniverse.service.BoardService;
 
 @Controller
@@ -47,6 +49,18 @@ public class BoardController {
 		model.addAttribute("list",service.listAll());		
 	}
 	
+	@GetMapping("/listPage")
+	public void listPage(Model model,Criteria cri) throws Exception {
+		logger.info("show all list....................");
+		model.addAttribute("list",service.listCriteria(cri));
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(service.listCountCriteria(cri));		
+		model.addAttribute("pageMaker", pageMaker);
+		
+	}
+	
 	@GetMapping("/read")
 	public void read(@RequestParam("bno") Integer bno, Model model) throws Exception {
 		model.addAttribute("board",service.read(bno));
@@ -73,4 +87,6 @@ public class BoardController {
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/board/listAll";
 	}	
+	
+	
 }
