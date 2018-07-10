@@ -17,7 +17,7 @@
 		<c:forEach items="${list}" var="board">
 		<tr>
 			<td>${board.bno}</td>
-			<td><a href='/board/read${pageMaker.makeQuery(pageMaker.cri.page)}&bno=${board.bno}'>
+			<td><a href='/board/readPage${pageMaker.makeQuery(pageMaker.cri.page)}&bno=${board.bno}'>
 			       ${board.title}</a></td>
 			<td>${board.writer}</td>
 			<td><fmt:formatDate pattern="yyyy-mm-dd HH:mm" value="${board.regdate}" /> </td>

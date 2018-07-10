@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,16 +67,37 @@ public class BoardController {
 		model.addAttribute("board",service.read(bno));
 	}
 	
+	@GetMapping("/readPage")
+	public void read(@RequestParam("bno") int bno,@ModelAttribute("cri") Criteria cri ,Model model) throws Exception {
+		model.addAttribute("board",service.read(bno));
+	}
+	
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Integer bno, RedirectAttributes rttr) throws Exception {
-		System.out.println("잘너머온다아");
 		service.remove(bno);
 		rttr.addFlashAttribute("msg","SUCCESS");
 		return "redirect:/board/listAll";		
 	}
 	
+	//Remove에서 @ModelAttribute를 사용하지 않은 이유 : redirect로 Model로 담은 객체가 쓸모 없기 떄문에.
+	@PostMapping("/removePage")
+	public String remove(@RequestParam("bno") int bno, Criteria cri,RedirectAttributes rttr) throws Exception {
+		service.remove(bno);
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
+		rttr.addFlashAttribute("msg","SUCCESS");
+		
+		return "redirect:/board/listPage";		
+	}
+	
+	
 	@GetMapping("/modify")
 	public void modifyGET(@RequestParam("bno")int bno, Model model) throws Exception {
+		model.addAttribute("board",service.read(bno));	
+	}
+	
+	@GetMapping("/modifyPage")
+	public void modifyGET(@RequestParam("bno")int bno,@ModelAttribute("cri") Criteria cri ,Model model) throws Exception {
 		model.addAttribute("board",service.read(bno));	
 	}
 	
@@ -86,6 +108,18 @@ public class BoardController {
 		service.modify(board);
 		rttr.addFlashAttribute("msg","success");
 		return "redirect:/board/listAll";
+	}
+	
+	@PostMapping("/modifyPage")
+	public String modifyPOST(BoardVO board,Criteria cri ,RedirectAttributes rttr) throws Exception {
+		logger.info("mod post.................");
+		
+		service.modify(board);
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
+		rttr.addFlashAttribute("msg","success");
+		
+		return "redirect:/board/listPage";
 	}	
 	
 	
