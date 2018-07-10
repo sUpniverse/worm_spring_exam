@@ -9,7 +9,7 @@
 		<div class="box-body">
 			<div class="form-group">
 				<label for="exampleInputEmail">BNO</label>
-				<input type="text" name='title' value="${board.bno}" class="form-control" placeholder="Enter Title" readonly="readonly">				
+				<input type="text" name='bno' value="${board.bno}" class="form-control" placeholder="Enter Title" readonly="readonly">				
 			</div>
 			<div class="form-group">
 				<label for="exampleInputEmail">Title</label>
