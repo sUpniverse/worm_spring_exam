@@ -98,4 +98,19 @@
 		jobForm.attr("action","/board/listPage").attr("method","get");
 		jobForm.submit();
 	}); */
+	
+	$(document).ready(function(){
+		$('#searchBtn').on("click",function(event){
+			self.location = "list"
+			+ '${pageMaker.makeQuery(1)}'
+			+ "&searchType="
+			+ $("select option:selected").val()
+			+ "&keyword=" + encodeURIComponent($('#keywordInput').val());
+		});
+		
+		$('#newBtn').on("click",function(evt){
+			self.location = "register";
+		});
+	});
+	
 </script>

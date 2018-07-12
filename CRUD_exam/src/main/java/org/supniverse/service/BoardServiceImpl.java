@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.supniverse.domain.BoardVO;
 import org.supniverse.domain.Criteria;
+import org.supniverse.domain.SearchCriteria;
 import org.supniverse.persistence.BoardDAO;
 
 @Service
@@ -47,8 +48,17 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int listCountCriteria(Criteria cri) throws Exception {
-		// TODO Auto-generated method stub
 		return dao.countPaging(cri);
+	}
+
+	@Override
+	public List<BoardVO> listSearchCriteria(SearchCriteria cri) throws Exception {
+		return dao.listSearch(cri);
+	}
+
+	@Override
+	public int listSearchCount(SearchCriteria cri) throws Exception {
+		return dao.listSearchCount(cri);
 	}
 
 }

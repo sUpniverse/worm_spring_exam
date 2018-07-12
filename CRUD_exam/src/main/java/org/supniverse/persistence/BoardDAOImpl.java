@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.supniverse.domain.BoardVO;
 import org.supniverse.domain.Criteria;
+import org.supniverse.domain.SearchCriteria;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -63,8 +64,20 @@ public class BoardDAOImpl implements BoardDAO{
 
 	@Override
 	public int countPaging(Criteria cri) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return session.selectOne(namespace+".countPaging",cri);
+	}
+
+	@Override
+	public List<BoardVO> listSearch(SearchCriteria cri) throws Exception {
+		
+		return session.selectList(namespace + ".listSearch",cri);
+	}
+
+	@Override
+	public int listSearchCount(SearchCriteria cri) throws Exception {
+		
+		return session.selectOne(namespace + ".listSearchCount",cri);
 	}
 
 }
