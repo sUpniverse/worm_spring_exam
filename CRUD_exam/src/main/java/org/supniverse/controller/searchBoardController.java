@@ -44,6 +44,25 @@ public class searchBoardController {
 		
 	}
 	
+	@GetMapping("/register")
+	public void registerGET(BoardVO board, Model model) throws Exception {
+		logger.info("register get......");	
+	}
+	
+	@PostMapping("/register")
+	public String registerPOST(BoardVO board, RedirectAttributes rttr) throws Exception {
+		logger.info("register post.....");
+		logger.info(board.toString());
+		
+		service.regist(board);
+		
+		rttr.addFlashAttribute("msg", "success");
+		
+//		return "/board/success";
+		return "redirect:/sboard/list";
+	}
+	
+	
 	@GetMapping("/readPage")
 	public void read(@RequestParam("bno") int bno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 		model.addAttribute("board",service.read(bno));
