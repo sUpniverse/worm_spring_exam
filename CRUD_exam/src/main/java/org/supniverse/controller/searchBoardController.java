@@ -8,7 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.supniverse.domain.BoardVO;
+import org.supniverse.domain.Criteria;
 import org.supniverse.domain.PageMaker;
 import org.supniverse.domain.SearchCriteria;
 import org.supniverse.service.BoardService;
@@ -38,5 +43,40 @@ public class searchBoardController {
 		model.addAttribute("pageMaker",pageMaker);
 		
 	}
+	
+	@GetMapping("/readPage")
+	public void read(@RequestParam("bno") int bno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+		model.addAttribute("board",service.read(bno));
+	}
+	
+	@PostMapping("/removePage")
+	public String remove(@RequestParam("bno") int bno, SearchCriteria cri,RedirectAttributes rttr) throws Exception {
+		service.remove(bno);
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
+		rttr.addFlashAttribute("msg","SUCCESS");
+		
+		return "redirect:/sboard/list";		
+	}	
+	
+	
+	@GetMapping("/modifyPage")
+	public void modifyGET(@RequestParam("bno")int bno,@ModelAttribute("cri") SearchCriteria cri ,Model model) throws Exception {
+		model.addAttribute("board",service.read(bno));	
+	}
+	
+	@PostMapping("/modifyPage")
+	public String modifyPOST(BoardVO board,SearchCriteria cri ,RedirectAttributes rttr) throws Exception {
+		logger.info("mod post.................");
+		
+		service.modify(board);
+		rttr.addAttribute("page",cri.getPage());
+		rttr.addAttribute("perPageNum",cri.getPerPageNum());
+		rttr.addAttribute("searchType",cri.getSearchType());
+		rttr.addAttribute("keyword",cri.getKeyword());
+		rttr.addFlashAttribute("msg","success");
+		
+		return "redirect:/sboard/list";
+	}	
 
 }
