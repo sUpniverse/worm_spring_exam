@@ -3,15 +3,15 @@
 - 실전 예제를 만들어 보고, 프로젝트에 적용시켜본다.
 - 충분한 이해와 반복숙달로 내것으로 만든다.
 - 나중에 나아게 충분한 밑거름이 될것이다.
+- org.supniverse.web :  member 만들기 및 Junit을 통한 테스트
+- CRUD_Exam :  게시판 CRUD 및 [페이징 처리][https://github.com/sUpniverse/worm_spring_exam#%ED%8E%98%EC%9D%B4%EC%A7%95-%EC%B2%98%EB%A6%AC] 구현
+- REST_Ajax_Exam : Restful 하게 만들기 및 Ajax를 이용한 댓글 달기 등을 구현
 
 
 
+***
 
 
-## CRUD_Exam 프로젝트
-
-- CRUD의 기본적인 것을 구현
-- 페이징 처리 구현
 
 
 
@@ -113,7 +113,7 @@
 
 
 
-##### 하단의 페이지 번호 만들기
+#### 하단의 페이지 번호 만들기
 
 -  PageMaker : 페이지를 나타낼 정보를 모두 가지고 있어야함 (이를 토대로 Class구성)
 
@@ -177,13 +177,13 @@
 
 - listPage에서 해당하는 모든 링크에 makeQuery를 넣어준다.
 
-       ```jsp
+  ```jsp
   <a href ='/board/readPage${pageMaker.makeQuery(pageMkaer.cri.page)}>
-       ```
+  ```
 
+  
 
-
-#####조회 기능을 눌렀다가 다시 있었던 목록으로 가기
+####조회 기능을 눌렀다가 다시 있었던 목록으로 가기
 
 - controller의 read메소드에 `@ModelAttribute("cri")Criteria cri`를 파라미터로 추가
 
@@ -207,3 +207,102 @@
   - controller의 remove는 post_modify와 동일
   - `@ModelAttribute`를 사용하지 않고, `RedirectAttribute`를 사용해서 cri를 넘겨준다.
 
+
+
+## 검색어 처리 및 동적 SQL
+
+- 검색어 bar를 이용해 게시물을 검색
+
+- 페이징처리와 비슷하다
+
+- field (만들어둔 Criteria를 상속하여 사용한다.)
+
+- page
+
+  - perPageNum
+  - searchType
+  - keyword
+
+- Controller
+
+  - 페이징과 동일
+
+- Jsp 처리
+
+  - (한가지 예시만 듬)
+
+    ```Jsp
+    <div>
+        <select name="searchType">
+    	<option value="t"
+                <c:out value="${cri.searchType eq 't' ? 'selected' :''}" />>
+    	</select>
+    
+        <input type="text" name='keyword' id="keywordInput" value='${cri.keyword}'>
+             <button id='searchBtn'>Search</button>
+             <button id='newBtn'>New Board</button>
+    
+    </div>
+    ```
+
+
+
+- 페이징과 마찬가지로 UriComponents를 통해 searchType과 keyword를 url에 포함시킨다.   
+
+- ```java
+  // PageMaker.java의 일부 
+  public String makeSearch(int page) {
+  	UriComponents uriComponents = UriComponentsBuilder.newInstance()
+  		.queryParam("page",param)
+  		.queryParam("perPageNum",cri.getPerPageNum())  					 
+          .queryParam("searchType",((SearchCriteria) cri).getSearchTyep()
+  		.queryParam("keyword",encoding(((SearchCriteria) cri).getKeyword())).build();
+  	return uriCompoents.toUriString();
+  }
+  ```
+
+​    
+
+- MyBatis sql문 처리 후 페이징과 같이 조회,삭제,수정,등록의 기능들을 수정한다. 
+
+ 
+
+ ### MyBatis 동적 SQL
+
+- mybatis의 표현식을 이용한 sql문 처리
+
+- SQL문 사용을 위해 각 메소드 수정(DAO,Service)  
+
+- Mapper
+
+     ```xml
+  <select id="listSearch" resultType="BoardVO">
+          <![CDATA[
+          select * from tbl_board where bno > 0
+          ]]>
+  	<if test="searchType == 't'.toString()" >
+  	 and title like CONCAT('%',#{keyword},'%')
+  	</if>
+      
+  	<![CDATA[
+  		order by bno desc limit #{pageStart},#{perPageNum}
+  	]]>
+  </select>
+  
+     ```
+
+  
+
+## Ajax를 이용한 댓글 처리
+
+### Rest
+
+- [Rest의 이해 : URI가 하나의 고유한 리소스를 대표한다. ][https://blog.npcode.com/2017/03/02/%EB%B0%94%EC%81%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%93%A4%EC%9D%84-%EC%9C%84%ED%95%9C-rest-%EB%85%BC%EB%AC%B8-%EC%9A%94%EC%95%BD]
+
+- RestController
+
+  - REST방식의 데이터처리 애노테이션
+
+    
+
+    
