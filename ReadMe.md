@@ -4,8 +4,10 @@
 - 충분한 이해와 반복숙달로 내것으로 만든다.
 - 나중에 나아게 충분한 밑거름이 될것이다.
 - org.supniverse.web :  member 만들기 및 Junit을 통한 테스트
-- CRUD_Exam :  게시판 CRUD 및 [페이징 처리][https://github.com/sUpniverse/worm_spring_exam#%ED%8E%98%EC%9D%B4%EC%A7%95-%EC%B2%98%EB%A6%AC] 구현
+- CRUD_Exam :  게시판 CRUD 및 [페이징 처리](https://github.com/sUpniverse/worm_spring_exam#%ED%8E%98%EC%9D%B4%EC%A7%95-%EC%B2%98%EB%A6%AC) 구현
 - REST_Ajax_Exam : Restful 하게 만들기 및 Ajax를 이용한 댓글 달기 등을 구현
+
+
 
 
 
@@ -113,7 +115,7 @@
 
 
 
-#### 하단의 페이지 번호 만들기
+### 하단의 페이지 번호 만들기
 
 -  PageMaker : 페이지를 나타낼 정보를 모두 가지고 있어야함 (이를 토대로 Class구성)
 
@@ -154,7 +156,7 @@
 
 
 
-#####Url에 page,perPageNum 나타내기
+##### Url에 page,perPageNum 나타내기
 
 - JSP내에서 수정
 
@@ -183,7 +185,7 @@
 
   
 
-####조회 기능을 눌렀다가 다시 있었던 목록으로 가기
+#### 조회 기능을 눌렀다가 다시 있었던 목록으로 가기
 
 - controller의 read메소드에 `@ModelAttribute("cri")Criteria cri`를 파라미터로 추가
 
@@ -297,7 +299,7 @@
 
 ### Rest
 
-- [Rest의 이해 : URI가 하나의 고유한 리소스를 대표한다. ][https://blog.npcode.com/2017/03/02/%EB%B0%94%EC%81%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%93%A4%EC%9D%84-%EC%9C%84%ED%95%9C-rest-%EB%85%BC%EB%AC%B8-%EC%9A%94%EC%95%BD]
+- [Rest의 이해 : URI가 하나의 고유한 리소스를 대표한다. ](https://blog.npcode.com/2017/03/02/%EB%B0%94%EC%81%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%93%A4%EC%9D%84-%EC%9C%84%ED%95%9C-rest-%EB%85%BC%EB%AC%B8-%EC%9A%94%EC%95%BD)
 
 - RestController
 
