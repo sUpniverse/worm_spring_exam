@@ -10,8 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import domain.SampleVO;
+import org.supniverse.domain.SampleVO;
 
 // RestController를 선언하면 모든 뷰 처리가 JSP가 아니라 것을 의 
 // ResponseBody를 선언하지않아도 동일하게 적용

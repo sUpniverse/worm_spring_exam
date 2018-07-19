@@ -1,4 +1,4 @@
-package domain;
+package org.supniverse.domain;
 
 import java.util.Date;
 

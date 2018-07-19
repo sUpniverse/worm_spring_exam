@@ -1,4 +1,4 @@
-package domain;
+package org.supniverse.domain;
 
 public class SampleVO {
 	private Integer mno;
