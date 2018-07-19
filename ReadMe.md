@@ -44,12 +44,10 @@
   ```
 
   - ExceptionHandler를 통해 Exception.class를 받아옴
-
   - 메소드의 파라미터를 보면 Exception을 받아오고 있음
-
   - 메소드에서 ModelAndView 객체를 생성하고 반환하고 있음
 
-    
+
 
 ## 페이징 처리
 
@@ -115,6 +113,8 @@
 
 
 
+
+
 ### 하단의 페이지 번호 만들기
 
 -  PageMaker : 페이지를 나타낼 정보를 모두 가지고 있어야함 (이를 토대로 Class구성)
@@ -149,7 +149,7 @@
 - BoardController : listPage메소드에 추가   
 
    ``` java
-  PageMaker pageMaker = new PageMaeker();
+    PageMaker pageMaker = new PageMaeker();
   	pageMaker.setCri(cri);
   	model.addAttribute("pageMaker",pageMaker);
    ```
@@ -183,7 +183,8 @@
   <a href ='/board/readPage${pageMaker.makeQuery(pageMkaer.cri.page)}>
   ```
 
-  
+
+
 
 #### 조회 기능을 눌렀다가 다시 있었던 목록으로 가기
 
@@ -192,11 +193,11 @@
 - readPage.jsp 수정
 
      ```jsp
-  <form>
+    <form>
   	<input type="hidden" name="page" value="${cri.page}">
   	<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
-  </form>
-  
+    </form>
+    
      ```
 
   - 원래 있던 form에 추가해준다
@@ -208,6 +209,8 @@
 - 삭제
   - controller의 remove는 post_modify와 동일
   - `@ModelAttribute`를 사용하지 않고, `RedirectAttribute`를 사용해서 cri를 넘겨준다.
+
+
 
 
 
@@ -269,6 +272,8 @@
 
  
 
+
+
  ### MyBatis 동적 SQL
 
 - mybatis의 표현식을 이용한 sql문 처리
@@ -278,7 +283,7 @@
 - Mapper
 
      ```xml
-  <select id="listSearch" resultType="BoardVO">
+    <select id="listSearch" resultType="BoardVO">
           <![CDATA[
           select * from tbl_board where bno > 0
           ]]>
@@ -289,22 +294,131 @@
   	<![CDATA[
   		order by bno desc limit #{pageStart},#{perPageNum}
   	]]>
-  </select>
-  
+    </select>
+    
      ```
 
   
 
-## Ajax를 이용한 댓글 처리
+
+
+## REST , Ajax 이용하기
 
 ### Rest
 
 - [Rest의 이해 : URI가 하나의 고유한 리소스를 대표한다. ](https://blog.npcode.com/2017/03/02/%EB%B0%94%EC%81%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%93%A4%EC%9D%84-%EC%9C%84%ED%95%9C-rest-%EB%85%BC%EB%AC%B8-%EC%9A%94%EC%95%BD)
-
 - RestController
 
   - REST방식의 데이터처리 애노테이션
+  -  JSP와 같은 뷰를 만들어 내지 않는 대신 데이터를 반환 (XML,JSON등)
+    - 단순 문자열 : 문자열 데이터는 'text/html'로 처리
+    - 코드를 작성했을시, JSP경로가 아닌 문자열 반환
+    - Response Headers를 보면 'text/html'로 볼 수 있다.
+  - JSON으로 반환
+    - JSON 처리를 위해 pom.xml에 jackson-databind 라이브러리 추가
+    - 객체를 JSON으로 JSON을 객체로 변환할때 필요
+    - Response Headers를 보면 'application/json'로 볼 수 있다.
+    - 컬렉션 타입의 객체 반환도 JSON으로 반환된다. (List,Map 등)
+  - ResponseEntity
+    - 뷰를 제공하지 않는 RestController에서 HTTP 상태 코드를 제어할 수 있도록 해준다.
 
-    
 
-    
+
+### REST를 이용한 댓글처리
+
+- GET/POST만을 이용하지 않고 'URI + Http 메소드'를 이용한다.
+
+- REST 방식을 사용하는 원칙 2가지
+
+  - URI가 원하는 리소스를 의미한다.
+  - 특별한 경우가 아니라면 복수형태로 작성
+
+- URI에는 식별할 수 있는 데이터를 같이 전달
+
+  - HTTP의 전송 방식이 실제 작업의 종류를 의미
+  - EX) PUT은 수정, DELETE는 삭제, GET은 조회
+
+- URI의 경우 실제 식별할 수있는 데이터를 같이 사용
+
+- Restful
+
+  | URI                     | 의미                           |
+  | ----------------------- | ------------------------------ |
+  | /boards/123             | 123번 게시물을 조회            |
+  | /boards/123/replies/456 | 123번 게시물의 댓글 456번 조회 |
+  | /boards/123/456         | 123번 게시물의 댓글 456번 조회 |
+  | /boards/                | 신규 작성 입력 페이지 조회     |
+
+- HTTP method 사용예제
+
+  | HTTP method(사용예)                 | 설명                          |
+  | ----------------------------------- | ----------------------------- |
+  | GET(/boards/123)                    | 자료의 조회용                 |
+  | DELETE(/boards/123)                 | 자료의 삭제                   |
+  | POST(/boards혹은 /board/new)+데이터 | 신규 자료의 등록              |
+  | PUT(/boards/123)+데이터             | 신규 자료의 수정 혹은 등록    |
+  | PATCH                               | 간혹 PUT 방식의 대용으로 사용 |
+
+
+
+### Ajax를 이용하여 REST 사용
+
+- [Ajax (Asynchronous JavaScript and XML) ](<https://opentutorials.org/course/1375/6843>)
+
+- 비동기 JavaScript와 XML, 서버측 Scripts와 통신하기 위한 XMLHttpRequest객체를 사용
+
+- AJAX의 강력한 특징은 페이지 전체를 리프레쉬 하지 않고서도 수행 되는 "비동기성"    
+
+- 처리 애노테이션
+
+  - @PathVariable : URI의 경로에서 원하는 데이터 추출
+  - @RequestBody : 전송된 JSON 데이터를 객체로 변환, @ModelAttribute와 유사 역할
+
+- RESTController의 작성
+
+  - 보통의 CRUD와 같음, But return type을 ResponseEntity를 이용하여 반환
+
+    - 성공하면 HttpStatus.OK를 실패하면 HttpStatus.BAD_REQUEST를
+    - try ~ catch를 이용하여 service가 성공했을때, 실패했을 때 ResponseEntity를 반환
+
+  - 데이터의 전송
+
+    - Overloaded POST를 이용
+
+    - <form> 태그를 이용할땐, POST방식으로 전송하되 hidden으로 _method를 전송
+
+      ```html
+      <input type='hidden' name="_method" value='PUT'>
+      ```
+
+    - Ajax를 이용시에는 headers 에 'X=HTTP-Method-Override' 에 넣음
+
+      ```javascript
+       headers: {
+                 "Content-Type": "application/json",
+                  "X-HTTP-Method-Override" : "DLETE" }
+      ```
+
+    -  위의 내용 처리릉 위해선 Spring에서 HiddenHttpMethodFilter를 설정
+
+      ```xml
+      <!-- web.xml -->
+      <filter>
+          <filter-name>
+              hiddenHttpMethodFilter
+          </filter-name>
+          <filter-lass>
+              org.springframework.web.filter.HiddenHttpMethodFilter
+          </filter-calss>
+      </filter>
+      <filter-mapping>
+          <filter-name>
+              hiddenHttpMethodFilter
+          </filter-name>
+          <url-pattern>/*</url-pattern>
+      </filter-mapping>
+      ```
+
+      
+
+      ​               
