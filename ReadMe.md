@@ -5,7 +5,7 @@
 - 나중에 나아게 충분한 밑거름이 될것이다.
 - org.supniverse.web :  member 만들기 및 Junit을 통한 테스트
 - CRUD_Exam :  게시판 CRUD 및 [페이징 처리](https://github.com/sUpniverse/worm_spring_exam#%ED%8E%98%EC%9D%B4%EC%A7%95-%EC%B2%98%EB%A6%AC) 구현
-- REST_Ajax_Exam : Restful 하게 만들기 및 Ajax를 이용한 댓글 달기 등을 구현
+- REST_Ajax_Exam : [Restful 하게 만들기](https://github.com/sUpniverse/worm_spring_exam#rest--ajax-%EC%9D%B4%EC%9A%A9%ED%95%98%EA%B8%B0) 및 Ajax를 이용한 댓글 달기 등을 구현
 
 
 
@@ -193,6 +193,8 @@
 - readPage.jsp 수정
 
      ```jsp
+     
+     ```
     <form>
   	<input type="hidden" name="page" value="${cri.page}">
   	<input type="hidden" name="perPageNum" value="${cri.perPageNum}">
@@ -283,6 +285,8 @@
 - Mapper
 
      ```xml
+     
+     ```
     <select id="listSearch" resultType="BoardVO">
           <![CDATA[
           select * from tbl_board where bno > 0
@@ -299,6 +303,7 @@
      ```
 
   
+
 
 
 
