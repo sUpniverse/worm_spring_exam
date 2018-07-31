@@ -56,7 +56,7 @@
 	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js">
 	</script>
 <script>
-	var bno = 123239;
+	var bno = 475122;
 	getPageList(1);
 	var replyPage = 1;
 	
@@ -69,7 +69,7 @@
 	});
 	
 	function getAllList() {	
-		var bno = 123239;
+		var bno = 475122;
 		$.getJSON("/replies/all/"+ bno, function(data) {
 			
 			var str ="";
@@ -127,7 +127,7 @@
 	$("#replyAddBtn").on("click",function() {
 		var replyer = $("#newReplyWriter").val();		
 		var replytext = $("#newReplyText").val();
-		var bno = 123239;
+		var bno = 475122;
 		
 		$.ajax({
 			type : 'post',
